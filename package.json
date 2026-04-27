@@ -1,0 +1,12 @@
+{
+  "name": "product-inventory-api",
+  "version": "1.0.0",
+  "description": "A simple Product Inventory REST API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["product", "inventory", "api", "nodejs"],
+  "author": "",
+  "license": "ISC"
+}
