@@ -73,6 +73,27 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (method === "PUT" && url.match(/^\/products\/\d+$/)) {
+    const id = parseInt(url.split("/")[2]);
+    getRequestBody(req)
+      .then((updatedData) => {
+        const products = readProducts();
+        const index = products.findIndex((p) => p.id === id);
+
+        if (index === -1) {
+          sendResponse(res, 404, { message: "Product not found" });
+        } else {
+          products[index] = { id, ...updatedData };
+          writeProducts(products);
+          sendResponse(res, 200, products[index]);
+        }
+      })
+      .catch(() => {
+        sendResponse(res, 400, { message: "Invalid JSON body" });
+      });
+    return;
+  }
+
   sendResponse(res, 404, { message: "Route not found" });
 });
 
