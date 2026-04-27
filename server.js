@@ -94,6 +94,21 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (method === "DELETE" && url.match(/^\/products\/\d+$/)) {
+    const id = parseInt(url.split("/")[2]);
+    const products = readProducts();
+    const index = products.findIndex((p) => p.id === id);
+
+    if (index === -1) {
+      sendResponse(res, 404, { message: "Product not found" });
+    } else {
+      const deleted = products.splice(index, 1);
+      writeProducts(products);
+      sendResponse(res, 200, { message: "Product deleted", product: deleted[0] });
+    }
+    return;
+  }
+
   sendResponse(res, 404, { message: "Route not found" });
 });
 
